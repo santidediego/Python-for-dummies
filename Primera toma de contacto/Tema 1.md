@@ -21,11 +21,13 @@ import math
 · Una vez dichas crearemos una función llamada "main" donde irá nuestro programa, escribiendo su estructura de esta forma:
 
 def main():
+
     # Aquí va nuestro programa
 
-if __name__ == "__main__":
+if __ name__ == "__ main__":  (sin espacios, están puestos por el formato .md)
+
     main()
-    
+
 
 · Dentro de nuestra función "main" pondremos una serie de sentencias. Tenemos varios tipos:
 
