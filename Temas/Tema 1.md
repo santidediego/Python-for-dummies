@@ -3,7 +3,7 @@ Tema 1: Escritura y organización de un programa
 
 Los programas en Python (como ocurre en C++) pueden dividirse en varios ficheros aunque para empezar supondremos que cada fichero es un programa. 
 
-Estos programas son de la forma: _Nombredelarchivo.py_
+Estos programas son de la forma: _Nombredelprograma.py_
 
 #### Podemos incluir comentarios del lenguaje natural, estos se realizan así
 
