@@ -3,7 +3,7 @@ Tema 1: Escritura y organización de un programa
 
 Los programas en Python (como ocurre en C++) pueden dividirse en varios ficheros aunque para empezar supondremos que cada fichero es un programa. 
 
-Estos programas son de la forma: Nombredelarchivo.py
+Estos programas son de la forma: _Nombredelarchivo.py_
 
 #### Podemos incluir comentarios del lenguaje natural, estos se realizan así
 
@@ -22,7 +22,7 @@ def main():
 
     # Aquí va nuestro programa
 
-if __ name__ == "__ main__":  (sin espacios, están puestos por el formato .md)
+if __ name__ == "____main____":  (sin espacios, están puestos por el formato .md)
 
     main()
 
