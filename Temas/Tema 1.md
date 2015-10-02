@@ -1,7 +1,5 @@
-Tema 1: Especificación de programas
-===================================
-
-### Escritura y organización de un programa
+Tema 1: Escritura y organización de un programa
+===============================================
 
 Los programas en Python (como ocurre en C++) pueden dividirse en varios ficheros aunque para empezar supondremos que cada fichero es un programa. 
 
