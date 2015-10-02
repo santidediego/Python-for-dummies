@@ -7,18 +7,18 @@ Los programas en Python (como ocurre en C++) pueden dividirse en varios ficheros
 
 Estos programas son de la forma: Nombredelarchivo.py
 
-· Podemos incluir comentarios del lenguaje natural, estos se realizan así:
+#### Podemos incluir comentarios del lenguaje natural, estos se realizan así
 
 *** Comentario en 
 		varias líneas ***
 
   # Comentario en una línea
 
-· Al principio del archivo indicamos las bibliotecas externas
+#### Al principio del archivo indicamos las bibliotecas externas
 
 import math
 
-· Una vez dichas crearemos una función llamada "main" donde irá nuestro programa, escribiendo su estructura de esta forma:
+#### Una vez dichas crearemos una función llamada "main" donde irá nuestro programa, escribiendo su estructura de esta forma:
 
 def main():
 
@@ -29,9 +29,9 @@ if __ name__ == "__ main__":  (sin espacios, están puestos por el formato .md)
     main()
 
 
-· Dentro de nuestra función "main" pondremos una serie de sentencias. Tenemos varios tipos:
+#### Dentro de nuestra función "main" pondremos una serie de sentencias. Tenemos varios tipos:
 
-	·· Sentencias de declaración de datos (data):
+##### Sentencias de declaración de datos (data)
 		
 		Python es un lenguaje no tipado, de modo que las variables no se declaran en base a un tipo, si no que simplemente se igualan a lo que valen. Aun así, para evitar líos, para aquellos que estén acostumbrados a lenguajes tipados aconsejo añadir esta zona como una zona comentada (para tener un control de las variables y evitar problemas a la hora de ejecutar), como por ejemplo:
 
@@ -43,7 +43,7 @@ if __ name__ == "__ main__":  (sin espacios, están puestos por el formato .md)
 			double hipotenusa
 		***
 
-	·· Sentencias de cálculo:
+##### Sentencias de cálculo
 
 		Como hemos dicho antes las variables simplemente se igualaban, como por ejemplo:
 
@@ -51,7 +51,7 @@ if __ name__ == "__ main__":  (sin espacios, están puestos por el formato .md)
 		lado2 = 5
 		hipotenusa = sqrt(lado1*lado1 + lado2*lado2)
 
-	·· Sentencias de Entrada/Salida
+##### Sentencias de Entrada/Salida
 
 		Son sentencias de lectura y escritura de mensajes
 
