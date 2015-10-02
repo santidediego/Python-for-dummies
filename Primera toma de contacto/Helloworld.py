@@ -1,1 +1,5 @@
-print("This line will be printed.")
+def main():
+    print("Hello World!")
+
+if __name__ == "__main__":
+    main()
