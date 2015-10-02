@@ -22,7 +22,7 @@ def main():
 
     # Aquí va nuestro programa
 
-if __ name__ == "____main____":  (sin espacios, están puestos por el formato .md)
+if __ name__ == "__ main__":  (sin espacios, están puestos por el formato .md)
 
     main()
 
