@@ -44,7 +44,7 @@ En este tema vamos a ver estructuras de control, como son los bucles y los salto
 		else :
 			# Aquí va lo que queremos que se haga si no se cumple ni CONDICION1
 
-	Es MUY importante observar que lo que nos dice si un else pertenece a un if o a otro es la __TABULACIÓN__, no es lo mismo
+	Es MUY importante observar que lo que nos dice si un else pertenece a un if o a otro es la TABULACIÓN, no es lo mismo
 
 		if CONDICION1 :
 			if CONDICION1_1 :
@@ -89,4 +89,3 @@ En este tema vamos a ver estructuras de control, como son los bucles y los salto
 
 	También podemos crear un bucle con contador utilizando uno con condición, jugando con la condición y una variable contadora.
 
-	
