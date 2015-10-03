@@ -14,7 +14,7 @@ Estos programas son de la forma: _Nombredelprograma.py_
 
 #### Al principio del archivo indicamos las bibliotecas externas
 
-import math
+	import math
 
 #### Una vez dichas crearemos una función llamada "main" donde irá nuestro programa, escribiendo su estructura de esta forma:
 
