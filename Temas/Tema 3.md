@@ -31,7 +31,7 @@ Este archivo está disponible en el repositorio, se llama _Ejemplo tema3.py_
 
 ### 2 Clases
 
-#### 1.1 Definición
+#### 2.1 Definición
 
 Las clases en Python poseen la siguiente estructura:
 
@@ -40,7 +40,7 @@ Las clases en Python poseen la siguiente estructura:
 
 Nota: Como en Python las variables no se declaran hasta que se usan, para evitar problemas a la hora de usarlas de forma externa se aconseja que se dejen "declaradas" a modo de comentario (en el siguiente apartado verán un caso de aplicación de esta nota)
 
-#### 1.2 Contructores
+#### 2.2 Contructores
 
 Los constructores en Python tienen la siguiente estructura:
 
@@ -60,20 +60,20 @@ También tenemos constructores por defecto, que son de la siguiente forma:
 	def __init__(self):
 		self.DATOS = []
 
-#### 1.3 Inicialización de objetos de la clase
+#### 2.3 Inicialización de objetos de la clase
 
 Para determinar que una variable es un objeto de la clase MI_CLASE, escribimos lo siguiente:
 
 	x=MI_CLASE(VAR1,VAR2)
 
-##### 1.3.1 Objetos instancia
+##### 2.3.1 Objetos instancia
 
 Para acceder a los elementos de un objeto lo haremos de una forma similar a las llamadas de funciones de clase en C++
 
 	x.VARIABLE_PRIVADA_1
 	x.VARIABLE_PRIVADA_2
 
-##### 1.3.2 Objetos método
+##### 2.3.2 Objetos método
 
 También podemos acceder a las funciones que una clase posea e incluso asignar, mediante el operador de igualdad, esa función a una variable, definiendo una nueva función
 
