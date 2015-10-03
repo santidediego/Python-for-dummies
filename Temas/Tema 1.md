@@ -22,9 +22,9 @@ import math
 
     	# Aquí va nuestro programa
 
-		if __name__ == "__main__":  
+	if __name__ == "__main__":  
 
-    		main()
+    	main()
 
 
 #### Dentro de nuestra función "main" pondremos una serie de sentencias. Tenemos varios tipos:
