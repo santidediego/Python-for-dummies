@@ -62,4 +62,6 @@ if __ name__ == "__ main__":  (sin espacios, están puestos por el formato .md)
 
 			Nota: Para ver la arquitectura de print() mirar en http://www.python-course.eu/python3_print.php
 
+			Nota: Para enganchar variables de una cadena ponemos print(CADENA1, CADENA2) (es equivalente al + de java)
+
 
