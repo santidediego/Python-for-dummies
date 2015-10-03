@@ -62,4 +62,22 @@ También tenemos constructores por defecto, que son de la siguiente forma:
 
 #### 1.3 Inicialización de objetos de la clase
 
-Para determinar que una variable es un objeto de la clase MI_CLASE
+Para determinar que una variable es un objeto de la clase MI_CLASE, escribimos lo siguiente:
+
+	x=MI_CLASE(VAR1,VAR2)
+
+##### 1.3.1 Objetos instancia
+
+Para acceder a los elementos de un objeto lo haremos de una forma similar a las llamadas de funciones de clase en C++
+
+	x.VARIABLE_PRIVADA_1
+	x.VARIABLE_PRIVADA_2
+
+##### 1.3.2 Objetos método
+
+También podemos acceder a las funciones que una clase posea e incluso asignar, mediante el operador de igualdad, esa función a una variable, definiendo una nueva función
+
+	x.FUNCION_CLASE(VAR1,VARN)		# Así llamamos a una función que haya dentro de una clase
+
+	func=x.FUNCION_CLASE 			# Así decimos que, a partir de este instante, es lo mismo poner x.FUNCION_CLASE(VAR1,VARN) que func(VAR1,VARN)
+
