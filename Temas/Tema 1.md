@@ -7,8 +7,8 @@ Estos programas son de la forma: _Nombredelprograma.py_
 
 #### Podemos incluir comentarios del lenguaje natural, estos se realizan así
 
-	*** Comentario en 
-			varias líneas ***
+	""" Comentario en 
+			varias líneas """
 
 	# Comentario en una línea
 
@@ -59,6 +59,9 @@ Son sentencias de lectura y escritura de mensajes
 			cin = conv.readLine() 										# Aquí decimos que queremos leer y almacenarlo en cin
 			
 			print ('\n' % (cin))										# Aquí imprimimos el valor de cin, en este caso es un número
+			
+Para leer un valor por teclado y almacenarlo en una variable, en este caso llamada var_input, hacemos:
+    ``var_input= input()``			
 
 Nota: Para ver la arquitectura de print() mirar en http://www.python-course.eu/python3_print.php
 
