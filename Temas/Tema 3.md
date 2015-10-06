@@ -80,4 +80,25 @@ También podemos acceder a las funciones que una clase posea e incluso asignar, 
 	x.FUNCION_CLASE(VAR1,VARN)		# Así llamamos a una función que haya dentro de una clase
 
 	func=x.FUNCION_CLASE 			# Así decimos que, a partir de este instante, es lo mismo poner x.FUNCION_CLASE(VAR1,VARN) que func(VAR1,VARN)
+	
+###Listas
+
+Podemos crear una lista de la siguiente manera: ``li=[1,2,3,"hola",[5,6,7]]``
+
+En nuestro ejemplo, hemos creado una lista con elementos de tipo entero, string e incluso otra lista
+
+#### Añadir elementos a una lista
+- Podemos añadir un elemento al final con la sentencia ``append`` en nuestro caso podemos hacer: ``li.append(5)`` para añadir el 5 al final
+- También podemos añadir un elemento en una posición específica con ``insert`` de la forma: li.insert(1,"element in position 2").
+#### Eliminar elementos de una lista
+- Podemos eliminar elementos mediante la orden ``remove``. En nuestro ejemplo: ``li.remove(1)`` eliminamos el primer elemento, que es el que tiene almacenado un 1
+- Podemos eliminar el último elemento mediante la función ``pop``. Por ejemplo, ``li.pop()``.
+#### Buscar elementos en una lista
+Para ello utilizamos la función ``index``. En nuestro ejemplo podemos escribir: ``li.index(3)`` y con ello estamos devolviendo el índice del elemento 3, que en nuestro caso sería el 2 (recordar que las listas empiezan en 0)
+
+En algunas de las funciones anteriores, si no se encuentra el elemento, Python lanza una excepción.
+
+
+
+
 
