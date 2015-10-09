@@ -39,9 +39,10 @@ def main():
         m.append(random.randrange(101)) #A number between 0 and 100
         i=i+1
     print (m)
+    a=m
     bubble(m)
     print (m)
-    selection(m)
-    print (m)
+    selection(a)
+    print (a)
 
 main()
