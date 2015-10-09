@@ -87,5 +87,11 @@ La estructura principal es:
 
 La parte referente al else es totalmente opcional, como en el apartado 2.1
 
-También podemos crear un bucle con contador utilizando uno con condición, jugando con la condición y una variable contadora.
+También podemos crear un bucle con contador utilizando para ello la función range:
 
+	for i in range(x,y) :
+    	# Aquí va lo que queremos que se haga mientras se cumpla para cada i
+		else :
+			# Aquí va lo que queremos que ocurra cuando i se salga del rango
+
+Con esto i va desde x a y (ambos inclusive)
