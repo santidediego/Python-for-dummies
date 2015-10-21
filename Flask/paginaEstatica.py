@@ -22,5 +22,15 @@ def jpeg():
     contenido = archivo.read()
     response.set_data(contenido);   # Datos binarios
     return response
+
+@app.route('/user/<username>')
+def mostrarPerfilUsuario(username):
+    # Mostrar el perfil de usuario
+    return 'Hola %s' % username
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return "Página no encontrada", 404
+
 if __name__ == "__main__":
     app.run(debug=True)
