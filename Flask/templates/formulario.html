@@ -1,0 +1,62 @@
+
+{% extends "base.html" %}
+{% block title %}Página formulario{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block cabecera %}
+{{ super() }}
+            <h1>Primera página con Flask usando formularios y templates</h1>
+            <h2>Inserte sus datos</h2>
+            {% macro render_field(field) %}
+              <dt>{{ field.label }}
+              <dd>{{ field(**kwargs)|safe }}
+              {% if field.errors %}
+                  <ul class=errors>
+                  {% for error in field.errors %}
+                      <li>{{ error }}</li>
+                  {% endfor %}
+                  </ul>
+              {% endif %}
+              </dd>
+            {% endmacro %}
+            <form method=post action="/formulario">
+                <dl>
+
+
+                        {{ render_field(form.username) }}
+                        {{ render_field(form.DNI) }}
+                        {{ render_field(form.date) }}
+                        {{ render_field(form.email) }}
+                        {{ render_field(form.adress) }}
+                        {{ render_field(form.payment) }}
+                        {{ render_field(form.VISA) }}
+                        {{ render_field(form.password) }}
+                        {{ render_field(form.confirm) }}
+                        {{ render_field(form.accept_tos) }}
+
+              </dl>
+              <p><input type=submit value=Registro></p>
+            </form>
+{% endblock %}
+{% block barra_lateral %}
+    <p>
+      <h3>Barra de menús</h3>
+      <ul>
+          <li>Primer elemento</li>
+          <li>Segundo elemento</li>
+          <li>Tercer elemento</li>
+          <li>Cuarto elemento</li>
+      </ul>
+    </p>
+{% endblock %}
+{% block principal %}
+	<p>
+    Esta es una página muy básica realizada con el framework de Python, Flask y que tiene varios elementos como html estático, formularios realizados con la librería wtform y utiliza la librería render_template para formar las distintas hojas html. Además incluye el concepto de herencia de plantillas html.
+  </p>
+{% endblock %}
+{% block pie %}
+    <p>
+      Autor: Santiago de Diego de Diego.
+    </p>
+{% endblock %}

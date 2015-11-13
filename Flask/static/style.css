@@ -1,0 +1,32 @@
+body
+{
+	background-color: #81BEF7;
+}
+
+
+.barra_lateral
+{
+	width: 200px;
+	float: left;
+	text-align: justify;
+	padding: 10px;
+}
+
+.principal
+{
+	text-align: justify;
+	padding: 10px;
+}
+
+.cabecera
+{
+	text-align: justify;
+	padding: 10px;
+}
+.pie
+{
+	clear: both;
+	text-align: justify;
+	padding: 10px;
+	text-align: center;
+}
