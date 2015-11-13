@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    {% block head %}
+    <link rel="stylesheet" type="text/css" href={{url_for('static', filename='style.css')}}/>
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+</head>
+<body>
+    <div class="cabecera">
+    {% block cabecera %}
+        <p>
+      <IMG SRC={{url_for('static', filename='flask.png')}} width='250' height='140'>
+    </p>
+    {% endblock %}
+    </div>
+    <div class="barra_lateral">
+    {% block barra_lateral %}
+    {% endblock %}
+    </div>
+    <div class="principal">
+        {% block principal %}
+        {% endblock %}
+    </div>
+    <div class="pie">
+        {% block pie %}
+        {% endblock %}
+    </div>
+</body>
+</html>
