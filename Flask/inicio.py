@@ -22,6 +22,7 @@ def guardar_datos(form):
         db_datos['Fecha de nacimiento: ']=str(form.date.data)
         db_datos['Email: ']=str(form.email.data)
         db_datos['Dirección: ']=str(form.adress.data)
+        db_datos['Método de pago: ']=str(form.payment.data)
         db_datos['VISA: ']=str(form.VISA.data)
         db_datos['Contraseña: ']=str(form.password.data)
 
@@ -40,7 +41,7 @@ class Formulario2(Form):
             validators.Regexp(regex='\w+@(\w+)\.com|es',message='Dirección no válida')
     ])
     adress = TextAreaField('Dirección:',[validators.Length(min=1,max=50)])
-    payment = RadioField('Forma de pago:' , choices=[('1','A contrarrembolso'),('2','VISA')])
+    payment = RadioField('Forma de pago:' , choices=[('Efectivo','A contrarrembolso'),('Tarjeta','VISA')])
     VISA = TextField('VISA', [
             validators.Length(min=19, max=19, message="El número de tarjeta debe tener 16 caracteres"),
             validators.Regexp(regex='(\d{4}(-| )){3}\d{4}',message='Formato de tarjeta no válido')
@@ -70,7 +71,6 @@ def register():
     return render_template("formulario.html", form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
-#PROBLEMA: NO SE COMO REFERIRME AL USUARIO ALMACENADO ANTERIORMENTE
 def login():
     form=Login(request.form)
     user=form.username.data
@@ -106,6 +106,7 @@ def visualizar():
         dic['Fecha de nacimiento: ']=db_datos['Fecha de nacimiento: ']
         dic['Email: ']=db_datos['Email: ']
         dic['Dirección: ']=db_datos['Dirección: ']
+        dic['Método de pago: ']=db_datos['Método de pago: ']
         dic['VISA: ']=db_datos['VISA: ']
         dic['Contraseña: ']=db_datos['Contraseña: ']
         return render_template("visualizar.html",dic=dic)
