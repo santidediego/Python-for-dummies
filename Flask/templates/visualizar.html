@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Visualizar{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block cabecera %}
+    <h1>Página de visualizacion de datos</h1>
+	<p>
+        <ul>
+        {% for element in dic %}
+                <li>{{ element }} {{ dic[element] }}</li>
+        {% endfor %}
+        </ul>
+    </p>
+{% endblock %}

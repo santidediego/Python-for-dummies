@@ -14,6 +14,16 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 #shelve.init_app(app)
 
 db = dbm.open('base_datos.dat', 'c')
+db_datos = dbm.open('datos_usuarios','c') #Esta la usaremos para almacenar datos de usuarios
+
+def guardar_datos(form):
+        db_datos['Usuario: ']=str(form.username.data)
+        db_datos['DNI: ']=str(form.DNI.data)
+        db_datos['Fecha de nacimiento: ']=str(form.date.data)
+        db_datos['Email: ']=str(form.email.data)
+        db_datos['Dirección: ']=str(form.adress.data)
+        db_datos['VISA: ']=str(form.VISA.data)
+        db_datos['Contraseña: ']=str(form.password.data)
 
 class Login(Form):
     username = TextField('Nombre de Usuario', [validators.Length(min=4, max=25)])
@@ -50,10 +60,12 @@ def inicio():
 @app.route('/formulario', methods=['GET', 'POST'])
 def register():
     form = Formulario2(request.form)
+    db_datos={}
     if request.method == 'POST' and form.validate():
         db[form.username.data]=form.password.data
+        #Guardamos los datos en la otra BD
+        guardar_datos(form)
         session['username'] = form.username.data  #Lo almacenamos en las sesiones
-        print(session)
         return redirect('/')
     return render_template("formulario.html", form=form)
 
@@ -66,8 +78,8 @@ def login():
         Logeado=True
         return render_template("login.html",form=form,Logeado=Logeado)
     elif request.method == 'POST' and user in db: #Si está registrado
-        print(db.get('username',False))
         session['username'] = form.username.data #Lo almacenamos en las sesiones
+        db_datos={} #Reinicializamos datos
         return redirect('/')
     elif request.method == 'POST' and user not in db:
         return redirect('/formulario') #Redireccionamos al formulario de registro
@@ -83,7 +95,23 @@ def logout():
 
 @app.route('/visualizar')
 def visualizar():
-    pass
+    if 'username' in session and db_datos!={}:
+        user=session['username']
+        '''
+        Vamos a crear un diccionario para almacenar los datos y poder pasarlo como parametro
+        '''
+        dic={}
+        dic['Usuario: ']=db_datos['Usuario: ']
+        dic['DNI: ']=db_datos['DNI: ']
+        dic['Fecha de nacimiento: ']=db_datos['Fecha de nacimiento: ']
+        dic['Email: ']=db_datos['Email: ']
+        dic['Dirección: ']=db_datos['Dirección: ']
+        dic['VISA: ']=db_datos['VISA: ']
+        dic['Contraseña: ']=db_datos['Contraseña: ']
+        return render_template("visualizar.html",dic=dic)
+    else:
+        return redirect('/')
+
 
 if __name__ == "__main__":
     app.debug=True
