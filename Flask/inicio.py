@@ -7,24 +7,30 @@ from wtforms import Form, BooleanField, TextField, PasswordField, TextAreaField,
 
 import shelve
 import dbm
+from pymongo import MongoClient
+
 app = Flask(__name__)
+client = MongoClient('mongodb://localhost:27017/')
+db = client['Mongo_DB']
+data_collection = db.datos
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 #Las dos siguientes sentencias sirven para que funcione shelve. Solo necesario si trabajamos con la extension
 #app.config['SHELVE_FILENAME'] = 'shelve.db'
 #shelve.init_app(app)
 
 db = dbm.open('base_datos.dat', 'c')
-db_datos = dbm.open('datos_usuarios','c') #Esta la usaremos para almacenar datos de usuarios
 
 def guardar_datos(form):
-        db_datos['Usuario: ']=str(form.username.data)
-        db_datos['DNI: ']=str(form.DNI.data)
-        db_datos['Fecha de nacimiento: ']=str(form.date.data)
-        db_datos['Email: ']=str(form.email.data)
-        db_datos['Dirección: ']=str(form.adress.data)
-        db_datos['Método de pago: ']=str(form.payment.data)
-        db_datos['VISA: ']=str(form.VISA.data)
-        db_datos['Contraseña: ']=str(form.password.data)
+        datos_usuario= {
+            "Usuario: ": str(form.username.data),
+            "DNI: ": str(form.DNI.data),
+            "Fecha de nacimiento: ": str(form.date.data),
+            "Email": str(form.email.data),
+            "Dirección": str(form.adress.data),
+            "Método de pago: ": str(form.payment.data),
+            "VISA: ": str(form.VISA.data),
+            "Contraseña: ":str(form.password.data)}
+        data_collection.insert(datos_usuario)
 
 class Login(Form):
     username = TextField('Nombre de Usuario', [validators.Length(min=4, max=25)])
@@ -61,7 +67,6 @@ def inicio():
 @app.route('/formulario', methods=['GET', 'POST'])
 def register():
     form = Formulario2(request.form)
-    db_datos={}
     if request.method == 'POST' and form.validate():
         db[form.username.data]=form.password.data
         #Guardamos los datos en la otra BD
@@ -79,7 +84,7 @@ def login():
         return render_template("login.html",form=form,Logeado=Logeado)
     elif request.method == 'POST' and user in db: #Si está registrado
         session['username'] = form.username.data #Lo almacenamos en las sesiones
-        db_datos={} #Reinicializamos datos
+        datos_usuario={} #Reinicializamos datos
         return redirect('/')
     elif request.method == 'POST' and user not in db:
         return redirect('/formulario') #Redireccionamos al formulario de registro
@@ -95,20 +100,14 @@ def logout():
 
 @app.route('/visualizar')
 def visualizar():
-    if 'username' in session and db_datos!={}:
+    if 'username' in session:
         user=session['username']
         '''
         Vamos a crear un diccionario para almacenar los datos y poder pasarlo como parametro
         '''
         dic={}
-        dic['Usuario: ']=db_datos['Usuario: ']
-        dic['DNI: ']=db_datos['DNI: ']
-        dic['Fecha de nacimiento: ']=db_datos['Fecha de nacimiento: ']
-        dic['Email: ']=db_datos['Email: ']
-        dic['Dirección: ']=db_datos['Dirección: ']
-        dic['Método de pago: ']=db_datos['Método de pago: ']
-        dic['VISA: ']=db_datos['VISA: ']
-        dic['Contraseña: ']=db_datos['Contraseña: ']
+        dic=data_collection.find_one({"Usuario: ": user})
+
         return render_template("visualizar.html",dic=dic)
     else:
         return redirect('/')

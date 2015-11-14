@@ -7,10 +7,12 @@
 {% block cabecera %}
     <h1>Página de visualizacion de datos</h1>
 	<p>
+        {% if dic %}
         <ul>
-        {% for element in dic %}
-                <li>{{ element }} {{ dic[element] }}</li>
-        {% endfor %}
+            {% for element in dic %}
+                    <li>{{ element }} {{ dic[element] }}</li>
+            {% endfor %}
         </ul>
+        {% endif %}
     </p>
 {% endblock %}
