@@ -23,6 +23,10 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 #path = '/home/neon_520/Dropbox/Facultad/DAI/p3/sesion'                     
 
+
+
+
+
 """
 Gestion de menus
 """
