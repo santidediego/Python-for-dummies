@@ -101,6 +101,7 @@ def visualizar():
         Vamos a crear un diccionario para almacenar los datos y poder pasarlo como parametro
         '''
         dic={}
+
         dic['Usuario: ']=db_datos['Usuario: ']
         dic['DNI: ']=db_datos['DNI: ']
         dic['Fecha de nacimiento: ']=db_datos['Fecha de nacimiento: ']
@@ -109,6 +110,7 @@ def visualizar():
         dic['Método de pago: ']=db_datos['Método de pago: ']
         dic['VISA: ']=db_datos['VISA: ']
         dic['Contraseña: ']=db_datos['Contraseña: ']
+
         return render_template("visualizar.html",dic=dic)
     else:
         return redirect('/')
