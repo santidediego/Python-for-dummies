@@ -10,9 +10,9 @@ import dbm
 
 import re
 
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
+#import sys
+#reload(sys)
+#sys.setdefaultencoding('utf-8')
 
 
 bd_name = dbm.open('base_datos_nombre.dat', 'c')
@@ -21,11 +21,38 @@ bd_password = dbm.open('base_datos_contrasena.dat', 'c')
 app =Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
-#path = '/home/neon_520/Dropbox/Facultad/DAI/p3/sesion'                     
+__contador__=0
+__first_time__=True
+#path = '/home/neon_520/Dropbox/Facultad/DAI/p3/sesion'  
+
+"""
+Historial
+"""
+def quitarPrimero(lista):
+    for j in range(2):
+        lista[str(j)]=lista[str(j+1)]
+
+def almacenar_historial(request):
+    global __contador__
+    global __first_time__
+    if __contador__ == 2:
+        if __first_time__:
+            __first_time__=False
+        else:
+            quitarPrimero(session)
+        session[str(__contador__)]=str(request.url)
+    else:
+        session[str(__contador__)]=str(request.url)
+        __contador__+=1
 
 
+def Sesiones_html():
+    global __contador__
+    ses_html=list()
+    for j in range(0,__contador__+1):
+        ses_html.append(session[str(j)])
 
-
+    return ses_html
 
 """
 Gestion de menus
@@ -33,20 +60,24 @@ Gestion de menus
 
 @app.route('/')
 def index():
+    almacenar_historial(request)
     return render_template('index.html')
 
 
 @app.route("/P2")
 def indexp2():
+    almacenar_historial(request)
     return render_template('indexp2.html')
 
 @app.route("/P3")
 def indexp3():
+    global __contador__
+    almacenar_historial(request)
     if 'username' in session:
         logued=True
     else:
         logued=False
-    return render_template('indexp3.html', logued=logued)
+    return render_template('indexp3.html', logued=logued, sesiones=Sesiones_html())
 
 
 """
@@ -55,6 +86,7 @@ Practica 2
 
 @app.route('/P2/png')
 def imagen():
+    almacenar_historial(request)
     archivo=open("./png/imagen_png.png",'rb')
     #try:
     imagen_png=archivo.read()
@@ -67,11 +99,13 @@ def imagen():
 
 @app.route('/P2/user/<username>')
 def mostrarPerfilUsuario(username):
+    almacenar_historial(request)
     # Mostrar el perfil de usuario
     return 'Usuario %s' % username
 
 @app.route('/P2/mandelbrot')
 def mostrarMandelbrot():
+    almacenar_historial(request)
     paleta=[[0,0,0],[100,100,100],[50,50,50]]
     x1=int(request.args.get('x1'))
     y1=int(request.args.get('y1'))
@@ -87,6 +121,7 @@ def mostrarMandelbrot():
 
 @app.errorhandler(404)
 def page_not_found(error):
+    almacenar_historial(request)
     return "Pagina no encontrada "+str(404)
 
 
@@ -108,7 +143,7 @@ def sonApellidos(form,field):
 
 def invalidPass(form,field):
     if form.username.data in bd_name:
-        if not bd_password[form.username.data] == field.data :
+        if not bd_password[form.username.data] == bytes(field.data,'utf-8') :
             raise validators.ValidationError('Contrasena incorrecta')
 
 def invalidUser(form,field):
@@ -170,6 +205,7 @@ class Login(Form):
 
 @app.route('/P3/register', methods=['GET', 'POST'])
 def formulario():
+    almacenar_historial(request)
     form = RegistrationForm(request.form)
 
     if request.method == 'POST' and form.validate():
@@ -177,12 +213,13 @@ def formulario():
         bd_password[form.username.data]=form.password.data
         return('Gracias %s por registrarte' % form.username.data)
 
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form, sesiones=Sesiones_html())
 
 
 
 @app.route('/P3/login', methods=['GET','POST'])
 def login():
+    almacenar_historial(request)
     form = Login(request.form)
     logued=False
     if 'username' in session: #Si hay una sesion activa
@@ -201,7 +238,7 @@ def login():
             #return('Usuario no registrado')
         #    return redirect('/P3/register')
 
-    return render_template('login.html', form=form, logued=logued)
+    return render_template('login.html', form=form, logued=logued, sesiones=Sesiones_html())
 
 
 """
@@ -217,7 +254,8 @@ def loguedin():
 """
 
 @app.route('/P3/logout')
-def loguedout():
+def logout():
+    almacenar_historial(request)
     # remove the username from the session if it's there
     session.pop('username', None)
     Log=False
@@ -230,10 +268,12 @@ def visualizar():
 
 @app.route('/perfil')
 def perfil():
+    almacenar_historial(request)
     logued=False
     if 'username' in session: #Si hay una sesion activa
         logued=True
-    return render_template('perfil.html', logued=logued)
+        print(session)
+    return render_template('perfil.html', logued=logued, sesiones=Sesiones_html())
 
 
 if __name__ == "__main__":
