@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+  <title>Mi primera página con estilo</title>
+
+      {% block head %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+      {% endblock %}
+</head>
+
+<body>
+
+<!-- Menú de navegación del sitio -->
+<ul class="navbar">
+  <li><a href="/">Página principal</a>
+  {% if logued %}
+  <li><a href="/perfil">{{session['username']}}</a>
+  <li><a href="/P3/logout">Logout</a>
+  {% else %}
+  <li><a href="/P3/register">Prueba formulario</a>
+  <li><a href="/P3/login">Prueba login</a>
+  {% endif %}
+  
+</ul>
+
+<!-- Contenido principal -->
+<h1>Mi primera página con estilo</h1>
+
+<p>¡Bienvenido a mi primera página con estilo!
+
+<p>No tiene imágenes, pero puedes ver una pinchando en Prueba Imagen.
+También tiene enlaces, con ellos puedes probar cosas de la práctica.
+
+<p>Debería haber más cosas aquí, pero todavía no sé
+qué poner.
+
+
+{% block content %}{% endblock %}
+
+<!-- Firma y fecha de la página, ¡sólo por cortesía! -->
+<address>Creada el un día cualquiera de 2015<br>
+  por mí mismo con ayuda de internet.</address>
+
+
+</body>
+</html>
