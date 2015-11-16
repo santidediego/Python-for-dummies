@@ -5,7 +5,6 @@ from flask import render_template,request,session, redirect, url_for,escape
 from wtforms import Form, BooleanField, TextField, PasswordField, TextAreaField, SelectField, RadioField, DateField, validators
 #Regexp es para validar expresiones regulares
 
-import shelve
 import dbm
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
@@ -15,6 +14,7 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 db = dbm.open('base_datos.dat', 'c')
 db_datos = dbm.open('datos_usuarios','c') #Esta la usaremos para almacenar datos de usuarios
+
 
 def invalidPassword(form,field):
     if form.username.data in db:
