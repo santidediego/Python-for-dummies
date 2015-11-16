@@ -20,6 +20,12 @@
   <li><a href="/P3/register">Prueba formulario</a>
   <li><a href="/P3/login">Prueba login</a>
   {% endif %}
+
+  
+  {% for sesion in sesiones %}
+  <li><a href={{ sesion }}>{{sesion}} </a>
+  {% endfor %}
+  
   
 </ul>
 
