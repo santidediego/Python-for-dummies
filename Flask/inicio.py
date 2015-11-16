@@ -16,6 +16,12 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 db = dbm.open('base_datos.dat', 'c')
 db_datos = dbm.open('datos_usuarios','c') #Esta la usaremos para almacenar datos de usuarios
 
+def invalidPass(form,field):
+    if form.username.data in db:
+        if not db[form.username.data] == bytes(field.data,'utf-8') :
+            raise validators.ValidationError('Contraseñaa incorrecta')
+
+
 def guardar_datos(form):
         db_datos['Usuario: ']=str(form.username.data)
         db_datos['DNI: ']=str(form.DNI.data)
@@ -29,7 +35,8 @@ def guardar_datos(form):
 class Login(Form):
     username = TextField('Nombre de Usuario', [validators.Length(min=4, max=25)])
     password = PasswordField('Contraseña', [
-        validators.Required()
+        validators.Required(),
+        invalidPass
     ])
 
 class Formulario2(Form):
@@ -77,9 +84,10 @@ def login():
     if 'username' in session: #Si hay una sesion activa
         Logeado=True
         return render_template("login.html",form=form,Logeado=Logeado)
-    elif request.method == 'POST' and user in db: #Si está registrado
+    elif request.method == 'POST' and form.validate() and user in db: #Si está registrado
         session['username'] = form.username.data #Lo almacenamos en las sesiones
         db_datos={} #Reinicializamos datos
+
         return redirect('/')
     elif request.method == 'POST' and user not in db:
         return redirect('/formulario') #Redireccionamos al formulario de registro
