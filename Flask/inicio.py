@@ -16,10 +16,10 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 db = dbm.open('base_datos.dat', 'c')
 db_datos = dbm.open('datos_usuarios','c') #Esta la usaremos para almacenar datos de usuarios
 
-def invalidPass(form,field):
+def invalidPassword(form,field):
     if form.username.data in db:
         if not db[form.username.data] == bytes(field.data,'utf-8') :
-            raise validators.ValidationError('Contraseñaa incorrecta')
+            raise validators.ValidationError('Contraseña incorrecta')
 
 
 def guardar_datos(form):
@@ -36,7 +36,7 @@ class Login(Form):
     username = TextField('Nombre de Usuario', [validators.Length(min=4, max=25)])
     password = PasswordField('Contraseña', [
         validators.Required(),
-        invalidPass
+        invalidPassword
     ])
 
 class Formulario2(Form):
@@ -87,7 +87,6 @@ def login():
     elif request.method == 'POST' and form.validate() and user in db: #Si está registrado
         session['username'] = form.username.data #Lo almacenamos en las sesiones
         db_datos={} #Reinicializamos datos
-
         return redirect('/')
     elif request.method == 'POST' and user not in db:
         return redirect('/formulario') #Redireccionamos al formulario de registro
@@ -109,15 +108,15 @@ def visualizar():
         Vamos a crear un diccionario para almacenar los datos y poder pasarlo como parametro
         '''
         dic={}
-
-        dic['Usuario: ']=db_datos['Usuario: ']
-        dic['DNI: ']=db_datos['DNI: ']
-        dic['Fecha de nacimiento: ']=db_datos['Fecha de nacimiento: ']
-        dic['Email: ']=db_datos['Email: ']
-        dic['Dirección: ']=db_datos['Dirección: ']
-        dic['Método de pago: ']=db_datos['Método de pago: ']
-        dic['VISA: ']=db_datos['VISA: ']
-        dic['Contraseña: ']=db_datos['Contraseña: ']
+        #El método decode convierte bytes en str y el método encode convierte str en bytes
+        dic['Usuario: ']=db_datos['Usuario: '].decode('utf-8')
+        dic['DNI: ']=db_datos['DNI: '].decode('utf-8')
+        dic['Fecha de nacimiento: ']=db_datos['Fecha de nacimiento: '].decode('utf-8')
+        dic['Email: ']=db_datos['Email: '].decode('utf-8')
+        dic['Dirección: ']=db_datos['Dirección: '].decode('utf-8')
+        dic['Método de pago: ']=db_datos['Método de pago: '].decode('utf-8')
+        dic['VISA: ']=db_datos['VISA: '].decode('utf-8')
+        dic['Contraseña: ']=db_datos['Contraseña: '].decode('utf-8')
 
         return render_template("visualizar.html",dic=dic)
     else:

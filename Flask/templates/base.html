@@ -25,8 +25,22 @@
           <li><a href="/" >Inicio</a></li>
       </ul>
     </p>
-    {% endblock %}
     </div>
+    {% endblock %}
+
+    {% block barra_derecha %}
+    <div class= "barra_derecha">
+    <p>
+      <h3>Historial</h3>
+      <ul>
+          <li><a href="/formulario" >Primer pag</a></li>
+          <li><a href="/login" >Seg pag</a></li>
+          <li><a href="/logout" >ter pag</a></li>
+          <li><a href="/visualizar" >cuart pag</a></li>
+      </ul>
+    </p>
+    </div>
+    {% endblock %}
     <div class="principal">
         {% block principal %}
         {% endblock %}
