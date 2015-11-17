@@ -128,7 +128,7 @@ def login():
         return redirect('/formulario') #Redireccionamos al formulario de registro
     else:
         Logeado=False
-        return render_template("login.html",form=form,Logeado=Logeado)
+        return render_template("login.html",form=form,Logeado=Logeado, sesiones=html_sessions())
 
 @app.route('/logout')
 def logout():
@@ -147,7 +147,7 @@ def visualizar():
         Vamos a crear un diccionario para almacenar los datos y poder pasarlo como parametro
         '''
         dic=db_datos[str(user)]
-        return render_template("visualizar.html",dic=dic,username=user)
+        return render_template("visualizar.html",dic=dic,username=user,sesiones=html_sessions())
      else:
         return redirect('/')
 
