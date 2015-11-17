@@ -10,7 +10,7 @@
         <ul>
         <h3>{{ username }}</h3>
         {% for element in dic %}
-                <li>{{ element }}</li>
+                <li>{{ element }}{{ dic[element] }}</li>
         {% endfor %}
         </ul>
     </p>
