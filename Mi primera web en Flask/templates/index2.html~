@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+  <title>Mi primera página con estilo</title>
+
+      {% block head %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+      {% endblock %}
+</head>
+
+<body>
+
+<!-- Menú de navegación del sitio -->
+<ul class="navbar">
+  <li><a href="/">Pŕactica 2</a>
+  <li><a href="/png">Prueba Imagen</a>
+  <li><a href="/user/David">Prueba Usuario David</a>
+  <li><a href="/user/Paco">Prueba Usuario Paco</a>
+  <li><a href="/mandelbrot?x1=0&y1=0&x2=1&y2=1">Prueba Mandelbrot</a>
+</ul>
+
+<!-- Contenido principal -->
+<h1>Mi primera página con estilo</h1>
+
+<p>¡Bienvenido a mi primera página con estilo!
+
+<p>No tiene imágenes, pero puedes ver una pinchando en Prueba Imagen.
+También tiene enlaces, con ellos puedes probar cosas de la práctica.
+
+<p>Debería haber más cosas aquí, pero todavía no sé
+qué poner.
+
+<!-- Firma y fecha de la página, ¡sólo por cortesía! -->
+<address>Creada el un día cualquiera de 2015<br>
+  por mí mismo con ayuda de internet.</address>
+
+</body>
+</html>
