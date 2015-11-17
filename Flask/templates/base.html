@@ -25,8 +25,21 @@
           <li><a href="/" >Inicio</a></li>
       </ul>
     </p>
-    {% endblock %}
     </div>
+    {% endblock %}
+
+    {% block barra_derecha %}
+    <div class= "barra_derecha">
+    <p>
+      <h3>Historial</h3>
+      <ul>
+          {% for sesion in sesiones %}
+          <li><a href={{ sesion }}>{{ sesion }}</a></li>
+          {% endfor %}
+      </ul>
+    </p>
+    </div>
+    {% endblock %}
     <div class="principal">
         {% block principal %}
         {% endblock %}
