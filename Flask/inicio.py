@@ -14,17 +14,18 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 #shelve.init_app(app)
 
 db = dbm.open('base_datos.dat', 'c')
-db_datos = dbm.open('datos_usuarios','c') #Esta la usaremos para almacenar datos de usuarios
+db_datos = shelve.open('datos_usuarios','c') #Esta la usaremos para almacenar datos de usuarios
 
 def guardar_datos(form):
-        db_datos['Usuario: ']=str(form.username.data)
-        db_datos['DNI: ']=str(form.DNI.data)
-        db_datos['Fecha de nacimiento: ']=str(form.date.data)
-        db_datos['Email: ']=str(form.email.data)
-        db_datos['Dirección: ']=str(form.adress.data)
-        db_datos['Método de pago: ']=str(form.payment.data)
-        db_datos['VISA: ']=str(form.VISA.data)
-        db_datos['Contraseña: ']=str(form.password.data)
+        lista=list()
+        lista.append(str(form.DNI.data))
+        lista.append(str(form.date.data))
+        lista.append(str(form.email.data))
+        lista.append(str(form.adress.data))
+        lista.append(str(form.payment.data))
+        lista.append(str(form.VISA.data))
+        lista.append(str(form.password.data))
+        db_datos[str(form.username.data)]=lista
 
 class Login(Form):
     username = TextField('Nombre de Usuario', [validators.Length(min=4, max=25)])
@@ -95,23 +96,13 @@ def logout():
 
 @app.route('/visualizar')
 def visualizar():
-    if 'username' in session and db_datos!={}:
+    if 'username' in session:
         user=session['username']
         '''
         Vamos a crear un diccionario para almacenar los datos y poder pasarlo como parametro
         '''
-        dic={}
-
-        dic['Usuario: ']=db_datos['Usuario: ']
-        dic['DNI: ']=db_datos['DNI: ']
-        dic['Fecha de nacimiento: ']=db_datos['Fecha de nacimiento: ']
-        dic['Email: ']=db_datos['Email: ']
-        dic['Dirección: ']=db_datos['Dirección: ']
-        dic['Método de pago: ']=db_datos['Método de pago: ']
-        dic['VISA: ']=db_datos['VISA: ']
-        dic['Contraseña: ']=db_datos['Contraseña: ']
-
-        return render_template("visualizar.html",dic=dic)
+        dic=db_datos[str(user)]
+        return render_template("visualizar.html",dic=dic,username=user)
     else:
         return redirect('/')
 
