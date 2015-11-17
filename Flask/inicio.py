@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template,request,session, redirect, url_for,escape
+from flask import render_template,request,session, redirect, url_for,escape,Response
 #from flask.ext import shelve
 #Este modulo es una extension de shelve, shelve ya viene por defecto aunque podemos usar esta también
 from wtforms import Form, BooleanField, TextField, PasswordField, TextAreaField, SelectField, RadioField, DateField, validators
@@ -7,6 +7,8 @@ from wtforms import Form, BooleanField, TextField, PasswordField, TextAreaField,
 
 import dbm
 app = Flask(__name__)
+__count__=0
+__first_time__=True
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 #Las dos siguientes sentencias sirven para que funcione shelve. Solo necesario si trabajamos con la extension
 #app.config['SHELVE_FILENAME'] = 'shelve.db'
@@ -15,6 +17,33 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 db = dbm.open('base_datos.dat', 'c')
 db_datos = dbm.open('datos_usuarios','c') #Esta la usaremos para almacenar datos de usuarios
 
+"""
+Historial
+"""
+
+def deleteFirst(lista):
+    for j in range(2):
+        lista[str(j)]=lista[str(j+1)]
+def save_hist(request):
+    global __count__
+    global __first_time__
+    if __count__ == 2:
+        if __first_time__:
+            __first_time__=False
+        else:
+            deleteFirst(session)
+        session[str(__count__)]=str(request.url)
+    else:
+        session[str(__count__)]=str(request.url)
+        __count__+=1
+
+def html_sessions():
+    global __count__
+    ses_html=list()
+    for j in range(0,__count__):
+        print (j)
+        ses_html.append(session[str(j)])
+    return ses_html
 
 def invalidPassword(form,field):
     if form.username.data in db:
@@ -63,10 +92,14 @@ class Formulario2(Form):
 
 @app.route("/", methods=['GET', 'POST'])
 def inicio():
-    return render_template("inicio.html")
+    global __count__
+    save_hist(request)
+    return render_template("inicio.html", sesiones=html_sessions())
 
 @app.route('/formulario', methods=['GET', 'POST'])
 def register():
+    global __count__
+    save_hist(request)
     form = Formulario2(request.form)
     db_datos={}
     if request.method == 'POST' and form.validate():
@@ -75,15 +108,17 @@ def register():
         guardar_datos(form)
         session['username'] = form.username.data  #Lo almacenamos en las sesiones
         return redirect('/')
-    return render_template("formulario.html", form=form)
+    return render_template("formulario.html", form=form, sesiones=html_sessions())
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    global __count__
+    save_hist(request)
     form=Login(request.form)
     user=form.username.data
     if 'username' in session: #Si hay una sesion activa
         Logeado=True
-        return render_template("login.html",form=form,Logeado=Logeado)
+        return render_template("login.html",form=form,Logeado=Logeado, sesiones=html_sessions())
     elif request.method == 'POST' and form.validate() and user in db: #Si está registrado
         session['username'] = form.username.data #Lo almacenamos en las sesiones
         db_datos={} #Reinicializamos datos
@@ -92,16 +127,19 @@ def login():
         return redirect('/formulario') #Redireccionamos al formulario de registro
     else:
         Logeado=False
-        return render_template("login.html",form=form,Logeado=Logeado)
+        return render_template("login.html",form=form,Logeado=Logeado, sesiones=html_sessions())
 
 @app.route('/logout')
 def logout():
+    save_hist(request)
     # remove the username from the session if it's there
     session.pop('username', None)
     return redirect('/')
 
 @app.route('/visualizar')
 def visualizar():
+    global __count__
+    save_hist(request)
     if 'username' in session and db_datos!={}:
         user=session['username']
         '''
@@ -118,7 +156,7 @@ def visualizar():
         dic['VISA: ']=db_datos['VISA: '].decode('utf-8')
         dic['Contraseña: ']=db_datos['Contraseña: '].decode('utf-8')
 
-        return render_template("visualizar.html",dic=dic)
+        return render_template("visualizar.html",dic=dic, sesiones=html_sessions())
     else:
         return redirect('/')
 

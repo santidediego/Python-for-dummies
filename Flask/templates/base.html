@@ -33,10 +33,9 @@
     <p>
       <h3>Historial</h3>
       <ul>
-          <li>{{ session[contador] }}</li>
-          <li>{{ session[contador] }}</li>
-          <li>{{ session[contador] }}</li>
-          <li>{{ session[contador] }}</li>
+          {% for sesion in sesiones %}
+          <li><a href={{ sesion }}>{{ sesion }}</a></li>
+          {% endfor %}
       </ul>
     </p>
     </div>
