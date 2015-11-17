@@ -7,6 +7,7 @@ from wtforms import Form, BooleanField, TextField, PasswordField, TextAreaField,
 
 import shelve
 import dbm
+from pymongo import MongoClient
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 #Las dos siguientes sentencias sirven para que funcione shelve. Solo necesario si trabajamos con la extension
@@ -14,18 +15,22 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 #shelve.init_app(app)
 
 db = dbm.open('base_datos.dat', 'c')
-db_datos = shelve.open('datos_usuarios','c') #Esta la usaremos para almacenar datos de usuarios
+client = MongoClient('mongodb://localhost:27017/')
+database = client['Mongo_DB']
+data_collection = database.datos
+
 
 def guardar_datos(form):
-        lista=list()
-        lista.append(str(form.DNI.data))
-        lista.append(str(form.date.data))
-        lista.append(str(form.email.data))
-        lista.append(str(form.adress.data))
-        lista.append(str(form.payment.data))
-        lista.append(str(form.VISA.data))
-        lista.append(str(form.password.data))
-        db_datos[str(form.username.data)]=lista
+        datos_usuario= {
+            "Usuario: ": str(form.username.data),
+            "DNI: ": str(form.DNI.data),
+            "Fecha de nacimiento: ": str(form.date.data),
+            "Email": str(form.email.data),
+            "Dirección": str(form.adress.data),
+            "Método de pago: ": str(form.payment.data),
+            "VISA: ": str(form.VISA.data),
+            "Contraseña: ":str(form.password.data)}
+        data_collection.insert(datos_usuario)
 
 class Login(Form):
     username = TextField('Nombre de Usuario', [validators.Length(min=4, max=25)])
@@ -101,8 +106,10 @@ def visualizar():
         '''
         Vamos a crear un diccionario para almacenar los datos y poder pasarlo como parametro
         '''
-        dic=db_datos[str(user)]
-        return render_template("visualizar.html",dic=dic,username=user)
+        dic={}
+        dic=data_collection.find_one({"Usuario: ": user})
+
+        return render_template("visualizar.html",dic=dic)
     else:
         return redirect('/')
 
