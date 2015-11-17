@@ -10,7 +10,7 @@ import dbm
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 __count__=0
-__first_time__=True
+__firstTime__=True
 #Las dos siguientes sentencias sirven para que funcione shelve. Solo necesario si trabajamos con la extension
 #app.config['SHELVE_FILENAME'] = 'shelve.db'
 #shelve.init_app(app)
@@ -23,14 +23,14 @@ Historial
 -"""
 
 def deleteFirst(lista):
-    for j in range(2):
-        lista[str(j)]=lista[str(j+1)]
+    for i in range(2):
+        lista[str(i)]=lista[str(i+1)]
 def save_hist(request):
     global __count__
-    global __first_time__
+    global __firstTime__
     if __count__ == 2:
-        if __first_time__:
-            __first_time__=False
+        if __firstTime__:
+            __firstTime__=False
         else:
             deleteFirst(session)
         session[str(__count__)]=str(request.url)
@@ -41,12 +41,11 @@ def save_hist(request):
 def html_sessions():
     global __count__
     ses_html=list()
-    for j in range(0,__count__):
-        print (j)
-        ses_html.append(session[str(j)])
+    for i in range(0,__count__):
+        ses_html.append(session[str(i)])
     return ses_html
 
-def invalidPassword(form,field):
+def PassWrong(form,field):
     if form.username.data in db:
         if not db[form.username.data] == bytes(field.data,'utf-8') :
             raise validators.ValidationError('Contraseña incorrecta')
@@ -66,7 +65,7 @@ class Login(Form):
     username = TextField('Nombre de Usuario', [validators.Length(min=4, max=25)])
     password = PasswordField('Contraseña', [
          validators.Required(),
-         invalidPassword
+         PassWrong
     ])
 
 class Formulario2(Form):
@@ -102,7 +101,6 @@ def register():
     global __count__
     save_hist(request)
     form = Formulario2(request.form)
-    db_datos={}
     if request.method == 'POST' and form.validate():
         db[form.username.data]=form.password.data
         #Guardamos los datos en la otra BD
@@ -122,7 +120,6 @@ def login():
         return render_template("login.html",form=form,Logeado=Logeado, sesiones=html_sessions())
     elif request.method == 'POST' and form.validate() and user in db: #Si está registrado
         session['username'] = form.username.data #Lo almacenamos en las sesiones
-        db_datos={} #Reinicializamos datos
         return redirect('/')
     elif request.method == 'POST' and user not in db:
         return redirect('/formulario') #Redireccionamos al formulario de registro
