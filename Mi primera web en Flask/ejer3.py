@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # -*- coding:utf-8 -*-
 
@@ -15,8 +15,9 @@ import re
 #sys.setdefaultencoding('utf-8')
 
 
-bd_name = dbm.open('base_datos_nombre.dat', 'c')
-bd_password = dbm.open('base_datos_contrasena.dat', 'c')
+bd = dbm.open('base_datos.dat', 'c')
+#bd_name = dbm.open('base_datos_nombre.dat', 'c')
+#bd_password = dbm.open('base_datos_contrasena.dat', 'c')
 
 app =Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
@@ -142,12 +143,12 @@ def sonApellidos(form,field):
         raise validators.ValidationError('No has puesto tus apellidos')
 
 def invalidPass(form,field):
-    if form.username.data in bd_name:
-        if not bd_password[form.username.data] == bytes(field.data,'utf-8') :
-            raise validators.ValidationError('Contrasena incorrecta')
+    if bytes(form.username.data+'_password','utf-8') in bd:
+        if not bd[form.username.data+'_password'] == bytes(field.data,'utf-8') :
+            raise validators.ValidationError('Contraseña incorrecta')
 
 def invalidUser(form,field):
-    if not field.data in bd_name:
+    if not bytes(field.data+'_name','utf-8') in bd:
         raise validators.ValidationError('Usuario incorrecto')
 
 
@@ -161,7 +162,7 @@ class RegistrationForm(Form):
         validators.Required(),
         sonApellidos
     ])
-    email = TextField('Direccion de email', [
+    email = TextField('Dirección de email', [
         validators.Required(),
         esCorreo
     ])
@@ -174,15 +175,16 @@ class RegistrationForm(Form):
         validators.Required()
     ],  format='%d-%m-%Y')#aun falta la condicion de fecha correcta
 
-    direccion = TextField('Direccion', [
+    direccion = TextField('Dirección', [
         validators.Required()
     ])
 
-    password = PasswordField('Contrasena', [
+    password = PasswordField('Contraseña', [
         validators.Required(),
-        validators.EqualTo('confirm', message='La contrasena debe coincidir con la repeticion')
+        validators.EqualTo('confirm', message='La Contraseña debe coincidir con la repetición')
     ])
-    confirm = PasswordField('Repite la contrasena')
+    confirm = PasswordField('Repite la Contraseña')
+
     pago = RadioField('Forma de pago', 
         choices=[('tipo1','VISA'),('tipo2','Contrareembolso')
     ])
@@ -196,7 +198,7 @@ class Login(Form):
         invalidUser,
         validators.Required()
     ])
-    password = PasswordField('Contrasena', [
+    password = PasswordField('Contraseña', [
         validators.Required(),
         invalidPass
     ])
@@ -209,8 +211,14 @@ def formulario():
     form = RegistrationForm(request.form)
 
     if request.method == 'POST' and form.validate():
-        bd_name[form.username.data]=form.username.data
-        bd_password[form.username.data]=form.password.data
+        bd[form.username.data+'_name']=form.username.data
+        bd[form.username.data+'_surnames']=form.surnames.data
+        bd[form.username.data+'_email']=form.email.data
+        bd[form.username.data+'_fec']=str(form.fec.data)
+        bd[form.username.data+'_direccion']=form.direccion.data
+        bd[form.username.data+'_password']=form.password.data
+        bd[form.username.data+'_pago']=form.pago.data
+
         return('Gracias %s por registrarte' % form.username.data)
 
     return render_template('register.html', form=form, sesiones=Sesiones_html())
@@ -225,18 +233,11 @@ def login():
     if 'username' in session: #Si hay una sesion activa
         logued=True
     elif request.method == 'POST' and form.validate():
-        #if form.username.data in bd_name:
-        #    if bd_password[form.username.data] == form.password.data :
         if not form.username.data in session:
             session['username']=form.username.data #meterlo en sesiones
             logued=True
         else:
-            return('Sesion ya iniciada previamente')
-            #else:
-             #   return('Contrasena incorrecta')
-        #else:
-            #return('Usuario no registrado')
-        #    return redirect('/P3/register')
+            return('Sesión ya iniciada previamente')
 
     return render_template('login.html', form=form, logued=logued, sesiones=Sesiones_html())
 
@@ -272,7 +273,7 @@ def perfil():
     logued=False
     if 'username' in session: #Si hay una sesion activa
         logued=True
-        print(session)
+    
     return render_template('perfil.html', logued=logued, sesiones=Sesiones_html())
 
 
