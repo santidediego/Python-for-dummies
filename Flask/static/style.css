@@ -12,6 +12,14 @@ body
 	padding: 10px;
 }
 
+.barra_derecha
+{
+	width: 200px;
+	float: right;
+	text-align: justify;
+	padding: 10px;
+}
+
 .principal
 {
 	text-align: justify;

@@ -15,8 +15,31 @@
     </div>
     <div class="barra_lateral">
     {% block barra_lateral %}
-    {% endblock %}
+    <p>
+      <h3>Barra de menús</h3>
+      <ul>
+          <li><a href="/formulario" >Registro</a></li>
+          <li><a href="/login" >Login</a></li>
+          <li><a href="/logout" >Logout</a></li>
+          <li><a href="/visualizar" >Visualizar</a></li>
+          <li><a href="/" >Inicio</a></li>
+      </ul>
+    </p>
     </div>
+    {% endblock %}
+
+    {% block barra_derecha %}
+    <div class= "barra_derecha">
+    <p>
+      <h3>Historial</h3>
+      <ul>
+          {% for sesion in sesiones %}
+          <li><a href={{ sesion }}>{{ sesion }}</a></li>
+          {% endfor %}
+      </ul>
+    </p>
+    </div>
+    {% endblock %}
     <div class="principal">
         {% block principal %}
         {% endblock %}
