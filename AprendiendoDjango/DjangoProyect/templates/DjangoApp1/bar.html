@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bar</title>
+    </head>
+
+    <body>
+        <h1>{{ bar_nombre }}</h1>
+        {% if bar %}
+            {% if tapas %}
+            <ul>
+                {% for tapa in tapas %}
+                <li><a href="{{ tapa.url }}">{{ tapa.title }}</a></li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <strong>No hay tapas actualmente en este bar</strong>
+            {% endif %}
+        {% else %}
+            The specified category {{ bar_nombre }} does not exist!
+        {% endif %}
+    </body>
+</html>

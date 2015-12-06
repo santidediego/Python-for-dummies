@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bares y tapas</title>
+    </head>
+
+    <body>
+        <h1>Hello world!</h1>
+
+        {% if bares %}
+            <ul>
+                {% for bar in bares %}
+                <li><a href="/DjangoApp1/bar/{{ bar.slug }}">{{ bar.nombre }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>No hay bares</strong>
+        {% endif %}
+
+        <a href="/DjangoApp1/about/">About</a>
+    </body>
+</html>
